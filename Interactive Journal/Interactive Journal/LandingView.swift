@@ -28,6 +28,7 @@ extension View {
 struct LandingView: View {
     @State private var showMenu = false
     @State private var navigateToJournalView = false
+    @State private var navigateToFriendsList = false
     @StateObject private var journalData = JournalData()
     
     var userName: String
@@ -133,9 +134,14 @@ struct LandingView: View {
                         }
                     }
                 
-                SideMenuView(userName: userName, showMenu: $showMenu)
+                SideMenuView(userName: userName, showMenu: $showMenu, navigateToFriendsList: $navigateToFriendsList) // Pass binding
                     .transition(.move(edge: .leading))
             }
+            
+            NavigationLink(destination: FriendsListView(currentUserId: Int(userName) ?? 1), isActive: $navigateToFriendsList) {
+                EmptyView()
+            }
+
         }
     }
 }
@@ -143,6 +149,7 @@ struct LandingView: View {
 struct SideMenuView: View {
     var userName: String
     @Binding var showMenu: Bool
+    @Binding var navigateToFriendsList: Bool
     
     var body: some View {
         VStack(alignment: .leading, spacing: 30) {
@@ -167,8 +174,10 @@ struct SideMenuView: View {
             
             // Friends List Button
             Button(action: {
-                print("Friends List tapped")
-                // Add navigation logic here
+                withAnimation {
+                    showMenu = false // Close the menu when tapped
+                    navigateToFriendsList = true // Trigger navigation to Friends List
+                }
             }) {
                 HStack {
                     Image(systemName: "person.2")
@@ -177,7 +186,7 @@ struct SideMenuView: View {
                         .foregroundColor(.white)
                 }
             }
-            
+
             // Settings Button
             Button(action: {
                 print("Settings tapped")
