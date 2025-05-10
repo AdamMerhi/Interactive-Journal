@@ -31,3 +31,11 @@ struct ClickedJournal: View {
 
     }
 }
+
+#Preview {
+    let journalData = JournalData()
+    let exampleEntry = JournalEntry(date: Date(), title: "Sample Entry", body: "This is a sample journal entry.", userId: "user123")
+
+    ClickedJournal(entry: exampleEntry)
+        .environmentObject(journalData)
+}
