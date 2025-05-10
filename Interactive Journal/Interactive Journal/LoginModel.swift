@@ -15,6 +15,7 @@ class LoginModel: ObservableObject {
     @Published var errorMessage = ""
     @Published var isLoggedIn = false
     @Published var isAdmin = false
+    @Published var currentUsername = ""
 
     private var userDefaultsManager = UserDefaultsManager()
 
@@ -26,6 +27,7 @@ class LoginModel: ObservableObject {
         if let user = users.first(where: { $0.username == username && $0.password == password}) {
             isAdmin = user.role == .admin
             isLoggedIn = true
+            currentUsername = user.username
         } else{
             errorMessage = "Invalid username or password"
         }

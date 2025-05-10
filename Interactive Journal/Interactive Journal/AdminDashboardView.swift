@@ -31,7 +31,7 @@ struct AdminDashboardView: View {
             }
             .padding()
         }
-        .navigationBarBackButtonHidden(true)
+        //.navigationBarBackButtonHidden(true)
     }
 }
 

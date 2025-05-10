@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct LandingView: View {
-    var userName: String = "placeholder"
+    var userName: String
     
     var body: some View {
         NavigationView {
@@ -37,7 +37,7 @@ struct LandingView: View {
                 .padding(.horizontal)
                 
                 //Welcome Message
-                Text("Welcome to *insert app name*")
+                Text("Welcome, \(userName)!")
                     .font(.title2)
                     .fontWeight(.medium)
                     .foregroundColor(.white)
@@ -105,5 +105,5 @@ struct JournalArchiveView: View {
 }
 
 #Preview {
-    LandingView()
+    LandingView(userName: "TestUser")
 }
