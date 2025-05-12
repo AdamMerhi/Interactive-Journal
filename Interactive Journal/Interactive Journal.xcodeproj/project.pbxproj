@@ -29,16 +29,6 @@
 		DAA4ACFD2DB8FA8D0029B9D6 /* Interactive JournalUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Interactive JournalUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		DA6553DC2DD0EFE9006E3D02 /* Exceptions for "Interactive JournalTests" folder in "Interactive JournalTests" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				"Interactive-JournalTests-Info.plist",
-			);
-			target = DAA4ACF22DB8FA8C0029B9D6 /* Interactive JournalTests */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		DAA4ACE52DB8FA8A0029B9D6 /* Interactive Journal */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
@@ -47,9 +37,6 @@
 		};
 		DAA4ACF62DB8FA8C0029B9D6 /* Interactive JournalTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				DA6553DC2DD0EFE9006E3D02 /* Exceptions for "Interactive JournalTests" folder in "Interactive JournalTests" target */,
-			);
 			path = "Interactive JournalTests";
 			sourceTree = "<group>";
 		};
