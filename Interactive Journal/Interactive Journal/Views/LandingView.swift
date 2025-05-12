@@ -25,8 +25,6 @@ extension View {
     }
 }
 
-import SwiftUI
-
 struct LandingView: View {
     @State private var showMenu = false
     @State private var navigateToJournalView = false
