@@ -54,12 +54,17 @@ struct SideMenuView: View {
     }
 }
 
-// Optional preview or additional view
-struct JournalArchive: View {
+
+/*struct JournalArchive: View {
     var userName: String
     
     var body: some View {
         Text("\(userName)'s Journal")
             .navigationTitle("Your Journals")
     }
+}
+*/
+
+#Preview {
+    SideMenuView(userName: "Test User", showMenu: .constant(true), navigateToFriendsList: .constant(false))
 }

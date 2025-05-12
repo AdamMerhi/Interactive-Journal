@@ -26,49 +26,71 @@ extension View {
 }
 
 struct LandingView: View {
+    let userName: String
+    let currentUserId: Int
+
     @State private var showMenu = false
     @State private var navigateToJournalView = false
     @State private var navigateToFriendsList = false
     @StateObject private var journalData = JournalData()
     @EnvironmentObject var loginModel: LoginModel
     @Binding var isLoggedIn: Bool
+    @Environment(\.dismiss) var dismiss
+
     
-    var userName: String
+    //var userName: String
     private let userDefaultsManager = UserDefaultsManager()
+    private let friendsListUserDefaultsManager = FriendsListUserDefaultsManager()
+    private let databaseManager = DatabaseManager.shared
+
+    /*var currentUserId: Int {
+        guard let user = userDefaultsManager.loadUsers().first(where: { $0.username == userName }) else {
+            print("Error: Current user not found!")
+            return -1
+        }
+        return user.id
+    }*/
     
-    var currentUserId: Int {
-        userDefaultsManager.loadUsers().first { $0.username == userName }?.id ?? 1
+    init(isLoggedIn: Binding<Bool>, userName: String, currentUserId: Int) {
+        self._isLoggedIn = isLoggedIn
+        self.userName = userName
+        self.currentUserId = currentUserId
     }
-    
+
+
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading, spacing: 20) {
                 // Header
                 HStack {
-                    Button(action: {
-                        withAnimation {
-                            showMenu.toggle()
-                        }
-                    }){
-                        Image(systemName: "line.horizontal.3")
+                    NavigationLink(
+                        destination: FriendsListView(currentUserId: currentUserId),
+                        isActive: $navigateToFriendsList
+                    ) {
+                        EmptyView()
+                    }
+
+                    Button { navigateToFriendsList = true } label: {
+                        Image(systemName: "person.2")
                             .font(.title)
                             .foregroundColor(.white)
                     }
-                    
+                    .padding(.horizontal)
+
                     Spacer()
-                    
+
                     Button(action: {
                         loginModel.logout()
                         isLoggedIn = false
+                        dismiss()
                     }) {
                         Image(systemName: "arrow.backward.circle")
                             .font(.title2)
                             .foregroundColor(.white)
                     }
                     
-                    
                     NavigationLink(
-                        destination: NewJournalView(currentUserId: userName)
+                        destination: NewJournalView(currentUserId: currentUserId, userName: userName)
                             .environmentObject(journalData),
                         isActive: $navigateToJournalView
                     ) {
@@ -91,7 +113,7 @@ struct LandingView: View {
                     .padding(.horizontal)
                 
                 // Your Journal
-                NavigationLink(destination: OldJournalView(currentUserId: userName)
+                NavigationLink(destination: OldJournalView(currentUserId: currentUserId)
                     .environmentObject(journalData)) {
                         VStack(alignment: .leading) {
                             Text("Your Journal")
@@ -108,7 +130,7 @@ struct LandingView: View {
                         .shadow(color: .blue.opacity(0.4), radius: 5, x: 5, y: 5)
                         .padding(.horizontal)
                     }
-                
+
                 // Divider
                 HStack {
                     Spacer()
@@ -122,17 +144,50 @@ struct LandingView: View {
                     Spacer()
                 }
                 .padding(.horizontal)
-                
+
                 // Today's Journals
                 Text("Today's Journals")
                     .font(.title3)
                     .foregroundColor(.white)
                     .padding(.horizontal)
-                
-                Text("\(userName)’s Entry")
-                    .foregroundColor(.white)
+
+                ScrollView(.vertical, showsIndicators: false) {
+                    HStack(spacing: 20) {
+                        // Get list of friends
+                        let friendIds = friendsListUserDefaultsManager.loadFriends(for: currentUserId)
+
+                        ForEach(friendIds, id: \.self) { friendId in
+                            // Get journals for each friend
+                            let friendsJournals = databaseManager.getJournals(for: friendId)
+                            
+                            VStack {
+                                Text("Friend \(friendId)'s Journals")  // This could be replaced with friend's name
+                                    .font(.headline)
+                                    .foregroundColor(.white)
+                                    .padding(.bottom, 5)
+                                
+                                ForEach(friendsJournals, id: \.id) { journal in
+                                    VStack(alignment: .leading) {
+                                        Text(journal.title)
+                                            .font(.subheadline)
+                                            .foregroundColor(.white)
+                                        Text(journal.content)
+                                            .font(.body)
+                                            .foregroundColor(.gray)
+                                            .lineLimit(3)
+                                    }
+                                    .padding()
+                                    .background(Color(.systemGray5))
+                                    .cornerRadius(10)
+                                    .shadow(color: .blue.opacity(0.4), radius: 5, x: 5, y: 5)
+                                    .padding(.bottom, 10)
+                                }
+                            }
+                        }
+                    }
                     .padding(.horizontal)
-                
+                }
+
                 Spacer()
             }
             .padding(.top)
@@ -140,27 +195,9 @@ struct LandingView: View {
             .edgesIgnoringSafeArea(.bottom)
             .navigationBarHidden(true)
         }
-        // Side Menu Overlay
-        if showMenu {
-            Color.black.opacity(0.5)
-                .edgesIgnoringSafeArea(.all)
-                .onTapGesture {
-                    withAnimation {
-                        showMenu = false
-                    }
-                }
-            
-            SideMenuView(userName: userName, showMenu: $showMenu, navigateToFriendsList: $navigateToFriendsList) // Pass binding
-                .transition(.move(edge: .leading))
-        }
-        
-        NavigationLink(destination: FriendsListView(currentUserId: currentUserId), isActive: $navigateToFriendsList) {
-            EmptyView()
-        }
     }
 }
 
 #Preview {
-    LandingView(isLoggedIn: .constant(true), userName: "User")
-        .environmentObject(LoginModel())
-}
+    LandingView(isLoggedIn: .constant(true), userName: "Test", currentUserId: 1)
+    .environmentObject(LoginModel())}

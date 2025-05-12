@@ -45,7 +45,7 @@ struct LoginView: View {
                 NavigationLink(
                     destination: loginModel.isAdmin ?
                         AnyView(AdminDashboardView()) :
-                        AnyView(LandingView(isLoggedIn: $isLoggedIn, userName: loginModel.currentUsername)
+                        AnyView(LandingView(isLoggedIn: $isLoggedIn, userName: loginModel.currentUsername, currentUserId: loginModel.currentUserId ?? -1)
                             .environmentObject(loginModel)),
                     isActive: $loginModel.isLoggedIn
                 ) {

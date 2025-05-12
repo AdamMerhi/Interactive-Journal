@@ -13,8 +13,8 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                if loginModel.isLoggedIn {
-                    LandingView(isLoggedIn: $loginModel.isLoggedIn, userName: loginModel.currentUsername)
+                if loginModel.isLoggedIn, let uid = loginModel.currentUserId {
+                    LandingView(isLoggedIn: $loginModel.isLoggedIn, userName: loginModel.currentUsername,  currentUserId: uid)
                         .environmentObject(loginModel)
                 } else {
                     VStack {
@@ -26,7 +26,7 @@ struct ContentView: View {
                         .background(Color.blue)
                         .foregroundColor(.white)
                         .cornerRadius(10)
-                        
+                     
                         NavigationLink("Go to Register", destination: RegistrationView())
                             .padding()
                             .background(Color.green)
@@ -42,4 +42,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
+        .environmentObject(LoginModel())
 }

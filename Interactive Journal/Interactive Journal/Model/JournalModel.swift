@@ -9,7 +9,7 @@ import Foundation
 
 struct Journal: Identifiable, Codable {
     var id = UUID()
-    var user: String
+    var user: Int
     var title: String
     var content: String
     var createdAt: Date

@@ -23,12 +23,12 @@ class DatabaseManager: ObservableObject {
     }
 
     // Get journals for a specific user
-    func getJournals(for user: String) -> [Journal] {
+    func getJournals(for user: Int) -> [Journal] {
         return journals.filter { $0.user == user }
     }
 
     // Add a new journal entry for the current user
-    func addJournal(for user: String, title: String, content: String, locationName: String) {
+    func addJournal(for user: Int, title: String, content: String, locationName: String) {
         let newJournal = Journal(user: user, title: title, content: content, createdAt: Date(), locationName: locationName)
         journals.append(newJournal)
         save()

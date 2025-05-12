@@ -16,10 +16,7 @@ class RegistrationModel: ObservableObject {
     @Published var message = ""
 
     private var userDefaultsManager = UserDefaultsManager()
-
-    private var users: [User] {
-        userDefaultsManager.loadUsers()
-    }
+    private var users: [User] { userDefaultsManager.loadUsers() }
 
     func register() {
         let userID = (users.last?.id ?? 0) + 1

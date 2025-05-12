@@ -6,7 +6,7 @@ import CoreLocation
 class JournalData: ObservableObject {
     @Published var entries: [JournalEntry] = []
     
-    func entries(for userId: String) -> [JournalEntry] {
+    func entries(for userId: Int) -> [JournalEntry] {
         return entries.filter { $0.userId == userId }
     }
 }
@@ -15,12 +15,12 @@ struct JournalEntry: Identifiable {
     let id: Date
     let title: String
     let body: String
-    let userId: String
+    let userId: Int
     let temperature: Double
     let condition: String
     let locationName: String
 
-    init(date: Date = Date(), title: String = "", body: String = "", userId: String, temperature: Double = 0.0, condition: String = "", locationName: String = "") {
+    init(date: Date = Date(), title: String = "", body: String = "", userId: Int, temperature: Double = 0.0, condition: String = "", locationName: String = "") {
         self.id = date
         self.title = title
         self.body = body
@@ -39,7 +39,8 @@ struct NewJournalView: View {
     @State private var weatherData: WeatherData?
     @State private var isLoggedIn: Bool = true
     
-    var currentUserId: String
+    var currentUserId: Int
+    var userName: String
 
     var body: some View {
         NavigationStack {
@@ -101,7 +102,8 @@ struct NewJournalView: View {
                 }
                 .padding(.bottom)
 
-                NavigationLink(destination: LandingView(isLoggedIn: $isLoggedIn, userName: currentUserId).environmentObject(journalData),
+                NavigationLink(destination: LandingView(isLoggedIn: $isLoggedIn, userName: userName, currentUserId: currentUserId)
+                    .environmentObject(journalData),
                                isActive: $navigateToLandingPage) {
                     EmptyView()
                 }
@@ -169,8 +171,9 @@ struct NewJournalView: View {
 
 #Preview {
     let journalData = JournalData()
-    let currentUserId = "preview_user"
+    let currentUserId = 1
+    let userName = "test"
 
-    NewJournalView(currentUserId: currentUserId)
+    NewJournalView(currentUserId: currentUserId, userName: userName)
         .environmentObject(journalData)
 }

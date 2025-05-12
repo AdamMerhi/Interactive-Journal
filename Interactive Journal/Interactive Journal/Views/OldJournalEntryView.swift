@@ -3,7 +3,7 @@
 import SwiftUI
 
 struct OldJournalView: View {
-    var currentUserId: String
+    var currentUserId: Int
     @State private var userJournals: [Journal] = []
 
     var body: some View {
@@ -51,7 +51,7 @@ struct OldJournalView: View {
 
 #Preview {
     let journalData = JournalData()
-    let currentUserId = "user123" // Example user ID for preview
+    let currentUserId = 1
 
     OldJournalView(currentUserId: currentUserId)
         .environmentObject(journalData)

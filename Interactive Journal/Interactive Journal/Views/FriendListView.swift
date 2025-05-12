@@ -31,15 +31,17 @@ struct FriendsListView: View {
                 // Separate users into friends and possible friends
                 let filteredUsers = viewModel.getFilteredUsers()
 
-                // Friends Section
-                if !filteredUsers.friends.isEmpty {
-                    Section(header: Text("Your Friends")) {
-                        List(filteredUsers.friends) { user in
-                            Text(user.username)
+                List {
+                    // Friends Section
+                    if !filteredUsers.friends.isEmpty {
+                        Section(header: Text("Your Friends")) {
+                            ForEach(filteredUsers.friends) { user in
+                                Text(user.username)
+                            }
                         }
                     }
                 }
-
+                
                 // Possible Friends Section
                 if !filteredUsers.possibleFriends.isEmpty {
                     Section(header: Text("Possible Friends")) {
