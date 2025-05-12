@@ -32,6 +32,11 @@ struct LandingView: View {
     @StateObject private var journalData = JournalData()
     
     var userName: String
+    private let userDefaultsManager = UserDefaultsManager()
+
+    var currentUserId: Int {
+        userDefaultsManager.loadUsers().first { $0.username == userName }?.id ?? 1
+    }
     
     var body: some View {
         ZStack {
@@ -138,10 +143,9 @@ struct LandingView: View {
                     .transition(.move(edge: .leading))
             }
             
-            NavigationLink(destination: FriendsListView(currentUserId: Int(userName) ?? 1), isActive: $navigateToFriendsList) {
+            NavigationLink(destination: FriendsListView(currentUserId: currentUserId), isActive: $navigateToFriendsList) {
                 EmptyView()
             }
-
         }
     }
 }

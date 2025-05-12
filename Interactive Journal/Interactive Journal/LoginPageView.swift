@@ -9,7 +9,7 @@ import SwiftUI
 
 struct LoginView: View {
     @StateObject private var loginModel = LoginModel()
-
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -17,16 +17,16 @@ struct LoginView: View {
                     .padding()
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .autocapitalization(.none)
-
+                
                 SecureField("Password", text: $loginModel.password)
                     .padding()
                     .textFieldStyle(RoundedBorderTextFieldStyle())
-
+                
                 if !loginModel.errorMessage.isEmpty {
                     Text(loginModel.errorMessage)
                         .foregroundColor(.red)
                 }
-
+                
                 Button(action: loginModel.login) {
                     Text("Login")
                         .frame(width: 200, height: 50)
@@ -35,15 +35,17 @@ struct LoginView: View {
                         .cornerRadius(10)
                 }
                 .padding()
-
+                
                 NavigationLink(
-                    destination: loginModel.isAdmin ? AnyView(AdminDashboardView()) : AnyView(Text("Welcome \(loginModel.username)")),
+                    destination: loginModel.isAdmin ?
+                    AnyView(AdminDashboardView()) :
+                        AnyView(LandingView(userName: loginModel.currentUsername)),
                     isActive: $loginModel.isLoggedIn
                 ) {
                     EmptyView()
                 }
+                .padding()
             }
-            .padding()
         }
     }
 }
