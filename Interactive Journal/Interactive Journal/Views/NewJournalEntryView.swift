@@ -37,6 +37,7 @@ struct NewJournalView: View {
     @State private var navigateToLandingPage: Bool = false
     @StateObject private var locationManager = LocationManager()
     @State private var weatherData: WeatherData?
+    @State private var isLoggedIn: Bool = true
     
     var currentUserId: String
 
@@ -59,7 +60,7 @@ struct NewJournalView: View {
                         Spacer()
                         Text("🌡️ \(Int(weather.temperature))°C, \(weather.condition)")
                     } else {
-                        ProgressView("Fetching Weather...")
+                        ProgressView("Searching Weather...")
                     }
                 }
                 .padding(.horizontal)
@@ -100,7 +101,7 @@ struct NewJournalView: View {
                 }
                 .padding(.bottom)
 
-                NavigationLink(destination: LandingView(userName: currentUserId).environmentObject(journalData),
+                NavigationLink(destination: LandingView(isLoggedIn: $isLoggedIn, userName: currentUserId).environmentObject(journalData),
                                isActive: $navigateToLandingPage) {
                     EmptyView()
                 }

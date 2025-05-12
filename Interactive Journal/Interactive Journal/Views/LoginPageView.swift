@@ -9,7 +9,8 @@ import SwiftUI
 
 struct LoginView: View {
     @StateObject private var loginModel = LoginModel()
-    
+    @Binding var isLoggedIn: Bool
+
     var body: some View {
         NavigationView {
             VStack {
@@ -27,7 +28,12 @@ struct LoginView: View {
                         .foregroundColor(.red)
                 }
                 
-                Button(action: loginModel.login) {
+                Button(action: {
+                    loginModel.login() // Perform login
+                    if loginModel.isLoggedIn { // If login is successful, update the state
+                        isLoggedIn = true
+                    }
+                }) {
                     Text("Login")
                         .frame(width: 200, height: 50)
                         .background(Color.blue)
@@ -35,11 +41,12 @@ struct LoginView: View {
                         .cornerRadius(10)
                 }
                 .padding()
-                
+
                 NavigationLink(
                     destination: loginModel.isAdmin ?
-                    AnyView(AdminDashboardView()) :
-                        AnyView(LandingView(userName: loginModel.currentUsername)),
+                        AnyView(AdminDashboardView()) :
+                        AnyView(LandingView(isLoggedIn: $isLoggedIn, userName: loginModel.currentUsername)
+                            .environmentObject(loginModel)),
                     isActive: $loginModel.isLoggedIn
                 ) {
                     EmptyView()
@@ -51,5 +58,7 @@ struct LoginView: View {
 }
 
 #Preview {
-    LoginView()
+    LoginView(isLoggedIn: .constant(false))
+        .environmentObject(LoginModel())
 }
+

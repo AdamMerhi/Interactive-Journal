@@ -32,5 +32,14 @@ class LoginModel: ObservableObject {
             errorMessage = "Invalid username or password"
         }
     }
+    
+    func logout() {
+        isLoggedIn = false
+        username = ""
+        password = ""
+        currentUsername = ""
+        isAdmin = false
+    }
+
 }
 
