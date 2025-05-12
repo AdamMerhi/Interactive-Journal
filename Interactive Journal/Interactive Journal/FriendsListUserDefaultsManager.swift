@@ -26,13 +26,14 @@ class FriendsListUserDefaultsManager {
     
     // Function to add a new friend for a user
     func addFriend(for userId: Int, friendId: Int) {
-        var friends = loadFriends(for: userId)
-        if !friends.contains(friendId) {
-            friends.append(friendId)
-            saveFriends(for: userId, friends: friends)
+        // Add friendId to userId's list
+        var userFriends = loadFriends(for: userId)
+        if !userFriends.contains(friendId) {
+            userFriends.append(friendId)
+            saveFriends(for: userId, friends: userFriends)
         }
     }
-    
+
     // Function to load all the friends data (for all users)
     private func loadAllFriends() -> [Int: [Int]] {
         if let data = UserDefaults.standard.data(forKey: friendsKey),

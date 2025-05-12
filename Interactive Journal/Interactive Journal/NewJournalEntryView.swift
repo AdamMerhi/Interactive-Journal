@@ -1,7 +1,7 @@
-
 // Created by Chloe Truong 24961967
 
 import SwiftUI
+import CoreLocation
 
 class JournalData: ObservableObject {
     @Published var entries: [JournalEntry] = []
@@ -16,12 +16,18 @@ struct JournalEntry: Identifiable {
     let title: String
     let body: String
     let userId: String
-    
-    init(date: Date = Date(), title: String = "", body: String = "", userId: String) {
+    let temperature: Double
+    let condition: String
+    let locationName: String
+
+    init(date: Date = Date(), title: String = "", body: String = "", userId: String, temperature: Double = 0.0, condition: String = "", locationName: String = "") {
         self.id = date
         self.title = title
         self.body = body
         self.userId = userId
+        self.temperature = temperature
+        self.condition = condition
+        self.locationName = locationName
     }
 }
 
@@ -29,8 +35,11 @@ struct NewJournalView: View {
     @EnvironmentObject var journalData: JournalData
     @State private var content: String = ""
     @State private var navigateToLandingPage: Bool = false
-    var currentUserId: String
+    @StateObject private var locationManager = LocationManager()
+    @State private var weatherData: WeatherData?
     
+    var currentUserId: String
+
     var body: some View {
         NavigationStack {
             VStack {
@@ -43,7 +52,18 @@ struct NewJournalView: View {
                     Text(DateFormatStyle())
                 }
                 .padding()
-                
+
+                HStack {
+                    if let weather = weatherData {
+                        Text("📍 \(weather.locationName)")
+                        Spacer()
+                        Text("🌡️ \(Int(weather.temperature))°C, \(weather.condition)")
+                    } else {
+                        ProgressView("Fetching Weather...")
+                    }
+                }
+                .padding(.horizontal)
+
                 TextEditor(text: $content)
                     .padding()
                     .frame(minHeight: 200)
@@ -52,13 +72,24 @@ struct NewJournalView: View {
                             .stroke(Color.gray.opacity(0.3), lineWidth: 1)
                     )
                     .padding(20)
+
                 Spacer()
-                
+
                 Button(action: {
                     let lineBreak = content.split(separator: "\n", maxSplits: 1, omittingEmptySubsequences: true)
                     let title = lineBreak.first.map(String.init) ?? "Untitled"
-                    
-                    DatabaseManager.shared.addJournal(for: currentUserId, title: title, content: content)
+
+                    let entry = JournalEntry(
+                        title: title,
+                        body: content,
+                        userId: currentUserId,
+                        temperature: weatherData?.temperature ?? 0.0,
+                        condition: weatherData?.condition ?? "Unknown",
+                        locationName: weatherData?.locationName ?? "Unknown"
+                    )
+                    DatabaseManager.shared.addJournal(for: currentUserId, title: title, content: content, locationName: weatherData?.locationName ?? "Unknown")
+
+                    journalData.entries.append(entry)
                     navigateToLandingPage = true
                 }) {
                     Text("Save")
@@ -67,20 +98,72 @@ struct NewJournalView: View {
                         .foregroundColor(.white)
                         .cornerRadius(8)
                 }
-                .navigationDestination(isPresented: $navigateToLandingPage) {
-                    LandingView(userName: currentUserId)
-                        .environmentObject(journalData)
+                .padding(.bottom)
+
+                NavigationLink(destination: LandingView(userName: currentUserId).environmentObject(journalData),
+                               isActive: $navigateToLandingPage) {
+                    EmptyView()
+                }
+            }
+            .onAppear {
+                locationManager.requestLocation()
+            }
+            .onChange(of: locationManager.location) { location in
+                if let loc = location {
+                    print("Location updated: \(loc.coordinate.latitude), \(loc.coordinate.longitude)") // Debugging location
+                    fetchWeatherData(for: loc)
+                } else {
+                    print("Location is nil.") // Debugging location nil case
                 }
             }
         }
-        //.navigationBarBackButtonHidden(true)
     }
-}
 
-private func DateFormatStyle() -> String {
-    let formatter = DateFormatter()
-    formatter.dateFormat = "d MMMM yyyy"
-    return formatter.string(from: Date())
+    private func fetchWeatherData(for location: CLLocation) {
+        let apiKey = "bb3d538833dfdb7a603454a2ac5550e8"
+        let urlString = "https://api.openweathermap.org/data/2.5/weather?lat=\(location.coordinate.latitude)&lon=\(location.coordinate.longitude)&units=metric&appid=\(apiKey)"
+        
+        guard let url = URL(string: urlString) else {
+            print("Invalid URL string.")
+            return
+        }
+        
+        print("Fetching weather data for URL: \(url)") // Debugging URL request
+
+        URLSession.shared.dataTask(with: url) { data, _, error in
+            if let error = error {
+                print("Weather fetch error: \(error.localizedDescription)")
+                return
+            }
+
+            guard let data = data else {
+                print("No data returned.")
+                return
+            }
+
+            do {
+                let decoded = try JSONDecoder().decode(WeatherResponse.self, from: data)
+                print("Decoded weather response: \(decoded)")
+
+                DispatchQueue.main.async {
+                    self.weatherData = WeatherData(
+                        locationName: decoded.name,
+                        temperature: decoded.main.temp,
+                        condition: decoded.weather.first?.description ?? "Clear"
+                    )
+                    print("Weather data fetched: \(self.weatherData!)") // Debugging fetched weather
+                }
+            } catch {
+                print("JSON decode error: \(error.localizedDescription)")
+            }
+        }.resume()
+    }
+
+    private func DateFormatStyle() -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "d MMMM yyyy"
+        return formatter.string(from: Date())
+    }
 }
 
 #Preview {

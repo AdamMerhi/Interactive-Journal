@@ -37,7 +37,7 @@ struct LoginView: View {
                 .padding()
 
                 NavigationLink(
-                    destination: loginModel.isAdmin ? AnyView(AdminDashboardView()) : AnyView(LandingView(userName: loginModel.currentUsername)),
+                    destination: loginModel.isAdmin ? AnyView(AdminDashboardView()) : AnyView(Text("Welcome \(loginModel.username)")),
                     isActive: $loginModel.isLoggedIn
                 ) {
                     EmptyView()

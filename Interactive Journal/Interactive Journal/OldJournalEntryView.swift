@@ -27,6 +27,9 @@ struct OldJournalView: View {
                                     Text(journal.createdAt.formatted(date: .abbreviated, time: .shortened))
                                         .font(.caption)
                                         .foregroundColor(.secondary)
+                                    Text("📍 \(journal.locationName)")
+                                        .font(.caption2)
+                                        .foregroundColor(.gray)
                                 }
                             }
                         }
@@ -42,7 +45,7 @@ struct OldJournalView: View {
 
     // Convert `Journal` to `JournalEntry` for ClickedJournal (if needed)
     private func convertToEntry(_ journal: Journal) -> JournalEntry {
-        return JournalEntry(date: journal.createdAt, title: journal.title, body: journal.content, userId: journal.user)
+        return JournalEntry(date: journal.createdAt, title: journal.title, body: journal.content, userId: journal.user, locationName: journal.locationName ?? "unknown")
     }
 }
 

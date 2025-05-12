@@ -187,6 +187,7 @@ struct SideMenuView: View {
                 }
             }
 
+            /*
             // Settings Button
             Button(action: {
                 print("Settings tapped")
@@ -199,6 +200,7 @@ struct SideMenuView: View {
                         .foregroundColor(.white)
                 }
             }
+             */
             
             Spacer()
         }

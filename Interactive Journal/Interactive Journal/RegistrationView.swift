@@ -19,9 +19,9 @@ struct RegistrationView: View {
             SecureField("Password", text: $regModel.password)
                 .padding()
                 .textFieldStyle(RoundedBorderTextFieldStyle())
-
+// comment this out
             //Toggle("Admin", isOn: $regModel.isAdmin)
-               // .padding()
+              //  .padding()
 
             if !regModel.message.isEmpty {
                 Text(regModel.message)

@@ -29,6 +29,16 @@
 		DAA4ACFD2DB8FA8D0029B9D6 /* Interactive JournalUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Interactive JournalUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		DA6553DC2DD0EFE9006E3D02 /* Exceptions for "Interactive JournalTests" folder in "Interactive JournalTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"Interactive-JournalTests-Info.plist",
+			);
+			target = DAA4ACF22DB8FA8C0029B9D6 /* Interactive JournalTests */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		DAA4ACE52DB8FA8A0029B9D6 /* Interactive Journal */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
@@ -37,6 +47,9 @@
 		};
 		DAA4ACF62DB8FA8C0029B9D6 /* Interactive JournalTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				DA6553DC2DD0EFE9006E3D02 /* Exceptions for "Interactive JournalTests" folder in "Interactive JournalTests" target */,
+			);
 			path = "Interactive JournalTests";
 			sourceTree = "<group>";
 		};
@@ -398,6 +411,9 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Interactive Journal/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Interactive-Journal-Info.plist";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "We need your location to provide current weather";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need your location to provide current weather";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -426,6 +442,9 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Interactive Journal/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Interactive-Journal-Info.plist";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "We need your location to provide current weather";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need your location to provide current weather";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -451,6 +470,9 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Interactive-JournalTests-Info.plist";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "We need your location to provide current weather";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need your location to provide current weather";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "na.Interactive-JournalTests";
@@ -469,6 +491,9 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Interactive-JournalTests-Info.plist";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "We need your location to provide current weather";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need your location to provide current weather";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "na.Interactive-JournalTests";
@@ -486,6 +511,8 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "We need your location to provide current weather";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need your location to provide current weather";
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "na.Interactive-JournalUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -502,6 +529,8 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "We need your location to provide current weather";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need your location to provide current weather";
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "na.Interactive-JournalUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";

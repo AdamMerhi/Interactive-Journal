@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct FriendsListView: View {
-    @StateObject private var viewModel: FriendsListModel
+    @ObservedObject var viewModel: FriendsListModel
     @State private var searchText: String = ""
 
     init(currentUserId: Int) {
-        _viewModel = StateObject(wrappedValue: FriendsListModel(currentUserId: currentUserId))
+        _viewModel = ObservedObject(wrappedValue: FriendsListModel(currentUserId: currentUserId))
     }
 
     var body: some View {
@@ -62,6 +62,9 @@ struct FriendsListView: View {
                 }
             }
             .navigationTitle("Friends List")
+            .onChange(of: viewModel.currentUserId) { newId in
+                viewModel.loadUsers() // Reload users list when the current user ID changes
+            }
         }
     }
 }

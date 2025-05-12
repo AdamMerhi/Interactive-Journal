@@ -8,9 +8,10 @@
 import Foundation
 
 struct Journal: Identifiable, Codable {
-    var id = UUID()  // Unique identifier for each journal entry
-    var user: String // User's ID
+    var id = UUID()
+    var user: String
     var title: String
     var content: String
-    var createdAt: Date // Timestamp for when the journal is created
+    var createdAt: Date
+    var locationName: String? = nil
 }
