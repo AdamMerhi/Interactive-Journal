@@ -9,7 +9,7 @@ import Foundation
 
 class FriendsListUserDefaultsManager {
     
-    private let friendsKey = "friendsList" // Key to store in UserDefaults
+    private let friendsKey = "friendsList"
     
     // Function to save friends list for a user
     func saveFriends(for userId: Int, friends: [Int]) {

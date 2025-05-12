@@ -9,7 +9,6 @@ import Foundation
 
 class JournalDefaultsManager {
     
-    // Key to store journals in UserDefaults
     private let journalsKey = "journals"
     
     // Save journals to UserDefaults

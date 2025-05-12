@@ -34,7 +34,6 @@ class DatabaseManager: ObservableObject {
         save()
     }
 
-    // Delete a journal by its ID
     func deleteJournal(id: UUID) {
         journals.removeAll { $0.id == id }
         save()
