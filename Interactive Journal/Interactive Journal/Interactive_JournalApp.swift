@@ -9,20 +9,9 @@ import SwiftUI
 
 @main
 struct Interactive_JournalApp: App {
-    
-    init() {
-        resetUserDefaults() // ⚠️ Only during development
-    }
-
-    var body: some Scene {
+var body: some Scene {
         WindowGroup {
             ContentView()
         }
-    }
-    func resetUserDefaults() {
-        let defaults = UserDefaults.standard
-        //defaults.removeObject(forKey: "users")
-        defaults.removeObject(forKey: "friendsList")
-        defaults.synchronize()
     }
 }
