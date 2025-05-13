@@ -10,9 +10,12 @@ import SwiftUI
 @main
 struct Interactive_JournalApp: App {
     
+    @StateObject var loginModel = LoginModel()
+
 var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(loginModel)
         }
     }
 }

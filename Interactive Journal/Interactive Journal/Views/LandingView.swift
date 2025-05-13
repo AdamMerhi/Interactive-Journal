@@ -161,7 +161,7 @@ struct LandingView: View {
                             let friendsJournals = databaseManager.getJournals(for: friendId)
                             
                             VStack {
-                                Text("Friend \(friendId)'s Journals")  // This could be replaced with friend's name
+                                Text("Friend \(friendId)'s Journals")
                                     .font(.headline)
                                     .foregroundColor(.white)
                                     .padding(.bottom, 5)
